@@ -101,6 +101,17 @@ const Message = styled.div`
   padding: 0.2rem 2rem;
   margin: 0.3rem 0;
   margin-top: 0;
+
+  @media only screen and (max-width: 1024px) {
+    font-size: 1rem;
+    padding: 0.2rem 1rem;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    padding: 0.2rem 1rem;
+    max-width: 150px;
+  }
 `;
 
 // user/guest name
