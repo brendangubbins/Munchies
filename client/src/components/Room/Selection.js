@@ -1,279 +1,289 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Button, Center, Flex, Box, Text, Avatar } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import American from "../../foodImages/American.jpg";
-import Asian from "../../foodImages/Asian.jpg";
-import Bakery from "../../foodImages/Bakery.jpg";
-import BBQ from "../../foodImages/BBQ.jpg";
-import Breakfast from "../../foodImages/Breakfast.jpg";
-import BubbleTea from "../../foodImages/BubbleTea.jpg";
-import Burgers from "../../foodImages/Burgers.jpg";
-import Carribean from "../../foodImages/Caribbean.jpg";
-import Cafe from "../../foodImages/Cafe.png";
-import Chinese from "../../foodImages/Chinese.jpg";
-import Coffee from "../../foodImages/Coffee.jpg";
-import Columbian from "../../foodImages/Columbian.jpg";
-import ComfortFood from "../../foodImages/ComfortFood.jpg";
-import Deli from "../../foodImages/Deli.jpeg";
-import Desserts from "../../foodImages/Desserts.jpg";
-import Dominican from "../../foodImages/Dominican.jpg";
-import FastFood from "../../foodImages/FastFood.jpg";
-import GlutenFree from "../../foodImages/GlutenFree.jpeg";
-import Greek from "../../foodImages/Greek.jpg";
-import Haitian from "../../foodImages/Haitian.jpg";
-import Halal from "../../foodImages/Halal.jpg";
-import Healthy from "../../foodImages/Healthy.jpg";
-import IceCream from "../../foodImages/IceCream.jpg";
-import Indian from "../../foodImages/Indian.jpg";
-import Italian from "../../foodImages/Italian.jpeg";
-import Jamacian from "../../foodImages/Jamacian.jpg";
-import Japanese from "../../foodImages/Japanese.jpg";
-import Jewish from "../../foodImages/Jewish.jpg";
-import Korean from "../../foodImages/Korean.jpg";
-import Kosher from "../../foodImages/Kosher.jpg";
-import LatinAmerican from "../../foodImages/LatinAmerican.jpg";
-import Malaysian from "../../foodImages/Malaysian.jpg";
-import Mediterranean from "../../foodImages/Mediterranean.jpg";
-import Mexican from "../../foodImages/Mexican.jpg";
-import MiddleEastern from "../../foodImages/MiddleEastern.jpg";
-import Pizza from "../../foodImages/Pizza.jpg";
-import Ramen from "../../foodImages/Ramen.jpg";
-import Sandwiches from "../../foodImages/Sandwiches.jpg";
-import Seafood from "../../foodImages/Seafood.jpg";
-import Smoothies from "../../foodImages/Smoothies.jpg";
-import SoulFood from "../../foodImages/SoulFood.png";
-import Spanish from "../../foodImages/Spanish.jpg";
-import StreetFood from "../../foodImages/StreetFood.jpg";
-import Sushi from "../../foodImages/Sushi.jpg";
-import Taiwanese from "../../foodImages/Taiwanese.jpg";
-import Thai from "../../foodImages/Thai.jpg";
-import Vegan from "../../foodImages/Vegan.jpg";
-import Vegetarian from "../../foodImages/Vegetarian.jpg";
-import Viet from "../../foodImages/Viet.jpg";
-import Wings from "../../foodImages/Wings.jpg";
-import Wraps from "../../foodImages/Wraps.jpg";
-import locationToYelp from "./YelpAPI";
-import FoodCards from "./FoodCards";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Button, Center, Flex, Box, Text, Avatar } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
+import American from '../../foodImages/American.jpg';
+import Asian from '../../foodImages/Asian.jpg';
+import Bakery from '../../foodImages/Bakery.jpg';
+import BBQ from '../../foodImages/BBQ.jpg';
+import Breakfast from '../../foodImages/Breakfast.jpg';
+import BubbleTea from '../../foodImages/BubbleTea.jpg';
+import Burgers from '../../foodImages/Burgers.jpg';
+import Carribean from '../../foodImages/Caribbean.jpg';
+import Cafe from '../../foodImages/Cafe.png';
+import Chinese from '../../foodImages/Chinese.jpg';
+import Coffee from '../../foodImages/Coffee.jpg';
+import Columbian from '../../foodImages/Columbian.jpg';
+import ComfortFood from '../../foodImages/ComfortFood.jpg';
+import Deli from '../../foodImages/Deli.jpeg';
+import Desserts from '../../foodImages/Desserts.jpg';
+import Dominican from '../../foodImages/Dominican.jpg';
+import FastFood from '../../foodImages/FastFood.jpg';
+import GlutenFree from '../../foodImages/GlutenFree.jpeg';
+import Greek from '../../foodImages/Greek.jpg';
+import Haitian from '../../foodImages/Haitian.jpg';
+import Halal from '../../foodImages/Halal.jpg';
+import Healthy from '../../foodImages/Healthy.jpg';
+import IceCream from '../../foodImages/IceCream.jpg';
+import Indian from '../../foodImages/Indian.jpg';
+import Italian from '../../foodImages/Italian.jpeg';
+import Jamacian from '../../foodImages/Jamacian.jpg';
+import Japanese from '../../foodImages/Japanese.jpg';
+import Jewish from '../../foodImages/Jewish.jpg';
+import Korean from '../../foodImages/Korean.jpg';
+import Kosher from '../../foodImages/Kosher.jpg';
+import LatinAmerican from '../../foodImages/LatinAmerican.jpg';
+import Malaysian from '../../foodImages/Malaysian.jpg';
+import Mediterranean from '../../foodImages/Mediterranean.jpg';
+import Mexican from '../../foodImages/Mexican.jpg';
+import MiddleEastern from '../../foodImages/MiddleEastern.jpg';
+import Pizza from '../../foodImages/Pizza.jpg';
+import Ramen from '../../foodImages/Ramen.jpg';
+import Sandwiches from '../../foodImages/Sandwiches.jpg';
+import Seafood from '../../foodImages/Seafood.jpg';
+import Smoothies from '../../foodImages/Smoothies.jpg';
+import SoulFood from '../../foodImages/SoulFood.png';
+import Spanish from '../../foodImages/Spanish.jpg';
+import StreetFood from '../../foodImages/StreetFood.jpg';
+import Sushi from '../../foodImages/Sushi.jpg';
+import Taiwanese from '../../foodImages/Taiwanese.jpg';
+import Thai from '../../foodImages/Thai.jpg';
+import Vegan from '../../foodImages/Vegan.jpg';
+import Vegetarian from '../../foodImages/Vegetarian.jpg';
+import Viet from '../../foodImages/Viet.jpg';
+import Wings from '../../foodImages/Wings.jpg';
+import Wraps from '../../foodImages/Wraps.jpg';
+import locationToYelp from './YelpAPI';
+import FoodCards from './FoodCards';
 
 const Title = styled.h2`
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-size: 3rem;
   text-align: center;
   margin-bottom: 1rem;
+
+  @media only screen and (max-width: 1024px) {
+    font-size: 2.2rem;
+    margin: 0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 1.7rem;
+    margin: 0;
+  }
 `;
 
 const Selection = ({ socket }) => {
   //All images for the cuisine buttons
   const foodCategories = [
     {
-      name: "American",
+      name: 'American',
       image: American,
     },
     {
-      name: "Asian",
+      name: 'Asian',
       image: Asian,
     },
     {
-      name: "Bakery",
+      name: 'Bakery',
       image: Bakery,
     },
     {
-      name: "BBQ",
+      name: 'BBQ',
       image: BBQ,
     },
     {
-      name: "Breakfast",
+      name: 'Breakfast',
       image: Breakfast,
     },
     {
-      name: "Bubble Tea",
+      name: 'Bubble Tea',
       image: BubbleTea,
     },
     {
-      name: "Burgers",
+      name: 'Burgers',
       image: Burgers,
     },
     {
-      name: "Cafe",
+      name: 'Cafe',
       image: Cafe,
     },
     {
-      name: "Caribbean",
+      name: 'Caribbean',
       image: Carribean,
     },
     {
-      name: "Chinese",
+      name: 'Chinese',
       image: Chinese,
     },
     {
-      name: "Coffee and Tea",
+      name: 'Coffee and Tea',
       image: Coffee,
     },
     {
-      name: "Colombian",
+      name: 'Colombian',
       image: Columbian,
     },
     {
-      name: "Comfort Food",
+      name: 'Comfort Food',
       image: ComfortFood,
     },
     {
-      name: "Deli",
+      name: 'Deli',
       image: Deli,
     },
     {
-      name: "Desserts",
+      name: 'Desserts',
       image: Desserts,
     },
     {
-      name: "Dominican",
+      name: 'Dominican',
       image: Dominican,
     },
     {
-      name: "Fast Food",
+      name: 'Fast Food',
       image: FastFood,
     },
     {
-      name: "Gluten Free",
+      name: 'Gluten Free',
       image: GlutenFree,
     },
     {
-      name: "Greek",
+      name: 'Greek',
       image: Greek,
     },
     {
-      name: "Haitian",
+      name: 'Haitian',
       image: Haitian,
     },
     {
-      name: "Halal",
+      name: 'Halal',
       image: Halal,
     },
     {
-      name: "Healthy",
+      name: 'Healthy',
       image: Healthy,
     },
     {
-      name: "Ice Cream",
+      name: 'Ice Cream',
       image: IceCream,
     },
     {
-      name: "Indian",
+      name: 'Indian',
       image: Indian,
     },
     {
-      name: "Italian",
+      name: 'Italian',
       image: Italian,
     },
     {
-      name: "Jamaican",
+      name: 'Jamaican',
       image: Jamacian,
     },
     {
-      name: "Japanese",
+      name: 'Japanese',
       image: Japanese,
     },
     {
-      name: "Jewish",
+      name: 'Jewish',
       image: Jewish,
     },
     {
-      name: "Smoothies",
+      name: 'Smoothies',
       image: Smoothies,
     },
     {
-      name: "Korean",
+      name: 'Korean',
       image: Korean,
     },
     {
-      name: "Kosher",
+      name: 'Kosher',
       image: Kosher,
     },
     {
-      name: "Latin American",
+      name: 'Latin American',
       image: LatinAmerican,
     },
     {
-      name: "Malaysian",
+      name: 'Malaysian',
       image: Malaysian,
     },
     {
-      name: "Mediterranean",
+      name: 'Mediterranean',
       image: Mediterranean,
     },
     {
-      name: "Mexican",
+      name: 'Mexican',
       image: Mexican,
     },
     {
-      name: "Middle Eastern",
+      name: 'Middle Eastern',
       image: MiddleEastern,
     },
     {
-      name: "Pizza",
+      name: 'Pizza',
       image: Pizza,
     },
     {
-      name: "Ramen",
+      name: 'Ramen',
       image: Ramen,
     },
     {
-      name: "Sandwiches",
+      name: 'Sandwiches',
       image: Sandwiches,
     },
     {
-      name: "Seafood",
+      name: 'Seafood',
       image: Seafood,
     },
     {
-      name: "Soul Food",
+      name: 'Soul Food',
       image: SoulFood,
     },
     {
-      name: "Spanish",
+      name: 'Spanish',
       image: Spanish,
     },
     {
-      name: "Street Food",
+      name: 'Street Food',
       image: StreetFood,
     },
     {
-      name: "Sushi",
+      name: 'Sushi',
       image: Sushi,
     },
     {
-      name: "Taiwanese",
+      name: 'Taiwanese',
       image: Taiwanese,
     },
     {
-      name: "Thai",
+      name: 'Thai',
       image: Thai,
     },
     {
-      name: "Vegan",
+      name: 'Vegan',
       image: Vegan,
     },
     {
-      name: "Vegetarian",
+      name: 'Vegetarian',
       image: Vegetarian,
     },
     {
-      name: "Vietnamese",
+      name: 'Vietnamese',
       image: Viet,
     },
     {
-      name: "Wings",
+      name: 'Wings',
       image: Wings,
     },
     {
-      name: "Wraps",
+      name: 'Wraps',
       image: Wraps,
     },
   ];
 
   const username = JSON.parse(
-    window.sessionStorage.getItem("loggedMunchiesUser")
+    window.sessionStorage.getItem('loggedMunchiesUser')
   ).username;
 
   // State to hold what cuisine the user selects
@@ -293,8 +303,8 @@ const Selection = ({ socket }) => {
   const [guestReady, setGuestReady] = useState(false);
 
   // State to hold user locations
-  const [location, setLocation] = useState("");
-  const [guestLocation, setGuestLocation] = useState("");
+  const [location, setLocation] = useState('');
+  const [guestLocation, setGuestLocation] = useState('');
 
   // useEffect hook to retrieve Yelp API data upon user ready
   useEffect(() => {
@@ -324,7 +334,7 @@ const Selection = ({ socket }) => {
     if (ready && guestReady) {
       callYelp();
     }
-  }, [ready, guestReady])
+  }, [ready, guestReady]);
 
   // Fire this whenever a user clicks on a cuisine button
   const handleClick = ({ food }) => {
@@ -339,7 +349,7 @@ const Selection = ({ socket }) => {
         return item !== food.name;
       });
       setCuisineData(arr);
-      console.log("Removing food", cuisineData);
+      console.log('Removing food', cuisineData);
     }
   };
 
@@ -351,7 +361,7 @@ const Selection = ({ socket }) => {
     const data = [...cuisineData];
 
     // dummy coordinates of Time Square
-    const lat = 40.7580;
+    const lat = 40.758;
     const lon = -73.9855;
     const latlon = [lat, lon];
 
@@ -384,7 +394,7 @@ const Selection = ({ socket }) => {
                       initial={{ scale: 0 }}
                       animate={{ rotate: 360, scale: 1 }}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 260,
                         damping: 20,
                       }}
@@ -392,7 +402,7 @@ const Selection = ({ socket }) => {
                       <Button
                         size="lg"
                         bgColor="#ffa500"
-                        _hover={{ backgroundColor: "#ffc108" }}
+                        _hover={{ backgroundColor: '#ffc108' }}
                         fontFamily="Rubik"
                         onClick={handleSubmit}
                       >
@@ -400,7 +410,7 @@ const Selection = ({ socket }) => {
                       </Button>
                     </motion.div>
                   ) : (
-                    ""
+                    ''
                   )}
                 </Center>
               </Flex>
@@ -428,7 +438,7 @@ const Selection = ({ socket }) => {
                       />
                       {food.name}
                       {/* If the user clicked on the button, add a checkmark to show it went through */}
-                      {cuisineData.includes(food.name) ? "✔️" : " "}
+                      {cuisineData.includes(food.name) ? '✔️' : ' '}
                     </Button>
                   );
                 })}
