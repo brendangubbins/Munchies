@@ -11,12 +11,16 @@ import { UserNameInput, PasswordInput, EmailInput } from './FormInputs';
 const SignUpFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 `;
 
-// container a single input
+// container for a single input
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
+  justify-content: center;
+  align-items: center;
 `;
 
 // container for Login and Sign up switch buttons
@@ -25,31 +29,35 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
 `;
 
-const SignUpForm = () => {
+const SignUpForm = ({ handleSignUpClick, handleLoginClick }) => {
   return (
     <form>
       <SignUpFormContainer>
         <InputGroup>
           <InputContainer>
-            {/* <InputLeftElement pointerEvents="none" children={<CgProfile />} /> */}
+            <InputLeftElement pointerEvents="none" children={<CgProfile />} />
             <UserNameInput placeholder="Username" />
           </InputContainer>
         </InputGroup>
         <InputGroup>
           <InputContainer>
-            {/* <InputLeftElement pointerEvents="none" children={<MdEmail />} /> */}
+            <InputLeftElement pointerEvents="none" children={<MdEmail />} />
             <EmailInput placeholder="Email Address" />
           </InputContainer>
         </InputGroup>
         <InputGroup>
           <InputContainer>
-            {/* <InputLeftElement pointerEvents="none" children={<AiFillLock />} /> */}
+            <InputLeftElement pointerEvents="none" children={<AiFillLock />} />
             <PasswordInput placeholder="Password" />
           </InputContainer>
         </InputGroup>
         <ButtonGroup>
-          <LoginButton type="button">Login</LoginButton>
-          <SignUpButton type="button">Sign up</SignUpButton>
+          <LoginButton type="button" onClick={handleLoginClick}>
+            Login
+          </LoginButton>
+          <SignUpButton type="button" onClick={handleSignUpClick}>
+            Sign up
+          </SignUpButton>
         </ButtonGroup>
         <SubmitButton type="submit">Submit</SubmitButton>
       </SignUpFormContainer>
