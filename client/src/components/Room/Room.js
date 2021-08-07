@@ -37,7 +37,7 @@ const Room = ({ socket }) => {
         <Chat socket={socket} />
       </LeftAlign>
       <RightAlign>
-        <Selection />
+        <Selection socket={socket} />
       </RightAlign>
     </Wrapper>
   );

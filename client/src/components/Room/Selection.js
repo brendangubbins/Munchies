@@ -63,7 +63,7 @@ const Title = styled.h2`
   margin-bottom: 1rem;
 `;
 
-const Selection = () => {
+const Selection = ({ socket }) => {
   //All images for the cuisine buttons
   const foodCategories = [
     {
@@ -272,20 +272,68 @@ const Selection = () => {
     },
   ];
 
-  //State to hold what cuisine the user selects
+  const username = JSON.parse(
+    window.sessionStorage.getItem("loggedMunchiesUser")
+  ).username;
+
+  // State to hold what cuisine the user selects
   const [cuisineData, setCuisineData] = useState([]);
 
-  //State to hold Yelp API Data response
+  // State to hold what cuisine the room guest selects
+  const [guestData, setGuestData] = useState([]);
+
+  // State to hold both users preferences combined
+  const [finalData, setFinalData] = useState([]);
+
+  // State to hold Yelp API Data response
   const [yelpAPIData, setYelpAPIData] = useState([]);
 
-  //Fire this whenever a user clicks on a cuisine button
+  // State to track "ready" status from socket.io
+  const [ready, setReady] = useState(false);
+  const [guestReady, setGuestReady] = useState(false);
+
+  // State to hold user locations
+  const [location, setLocation] = useState("");
+  const [guestLocation, setGuestLocation] = useState("");
+
+  // useEffect hook to retrieve Yelp API data upon user ready
+  useEffect(() => {
+    async function callYelp() {
+      setFinalData([...cuisineData, ...guestData]);
+
+      console.log(`Location: ${location}`);
+      console.log(`Guest Location: ${guestLocation}`);
+
+      // Taking the average latitude and longitude between the user and guest
+      const midpointLatitude = (location[0] + guestLocation[0]) / 2;
+      const midpointLongitude = (location[1] + guestLocation[1]) / 2;
+
+      const parameters = {
+        latitude: midpointLatitude,
+        longitude: midpointLongitude,
+        term: finalData,
+      };
+
+      console.log(`Search terms: ${parameters}`);
+
+      const response = await locationToYelp(parameters);
+      setYelpAPIData(response);
+    }
+
+    // Only if both users are ready, then make the API call
+    if (ready && guestReady) {
+      callYelp();
+    }
+  }, [ready, guestReady])
+
+  // Fire this whenever a user clicks on a cuisine button
   const handleClick = ({ food }) => {
-    //If we don't have this food, add it to the state
+    // If we don't have this food, add it to the state
     if (!cuisineData.includes(food.name)) {
       setCuisineData(cuisineData.concat(food.name));
       console.log("We're adding more food: ", cuisineData);
     }
-    //Else user clicked again, remove the food from the state
+    // Else user clicked again, remove the food from the state
     else {
       const arr = cuisineData.filter((item) => {
         return item !== food.name;
@@ -296,13 +344,33 @@ const Selection = () => {
   };
 
   const handleSubmit = async () => {
-    const obj = { location: "New York", term: cuisineData };
-    let res = await locationToYelp(obj);
-    setYelpAPIData(res);
+    // const obj = { location: "New York", term: cuisineData };
+    // let res = await locationToYelp(obj);
+    // setYelpAPIData(res);
+
+    const data = [...cuisineData];
+
+    // dummy coordinates of Time Square
+    const lat = 40.7580;
+    const lon = -73.9855;
+    const latlon = [lat, lon];
+
+    setLocation(latlon);
+    setReady(true);
+
+    socket.emit('submit-ready', data, username, latlon);
   };
 
+  socket.on('user-ready', (data, sender, guestLocation) => {
+    if (username !== sender) {
+      setGuestData(data);
+      setGuestLocation(guestLocation);
+      setGuestReady(true);
+    }
+  });
+
   //Render the food buttons for the user to pick
-  if (yelpAPIData.length === 0) {
+  if (!(ready && guestReady)) {
     return (
       <Flex direction="column">
         <Title>Select your favorite cuisines 😋</Title>
@@ -374,7 +442,11 @@ const Selection = () => {
     //Once we have the yelp response, render the cards
     return (
       <Flex justifyContent="flex-start" alignItems="flex-start">
-        <FoodCards yelpAPIData={yelpAPIData} />
+        {yelpAPIData.length === 0 ? (
+          <p>Currently Loading</p>
+        ) : (
+          <FoodCards yelpAPIData={yelpAPIData} />
+        )}
       </Flex>
     );
   }
