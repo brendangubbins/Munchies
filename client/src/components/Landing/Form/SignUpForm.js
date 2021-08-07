@@ -7,6 +7,7 @@ import { MdEmail } from 'react-icons/md';
 import { SignUpButton, LoginButton, SubmitButton } from './FormButtons';
 import { UserNameInput, PasswordInput, EmailInput } from './FormInputs';
 import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 // main container for sign up form
 const SignUpFormContainer = styled.div`
@@ -30,34 +31,118 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
 `;
 
-const SignUpForm = ({ handleSignUpClick, handleLoginClick }) => {
-  const { register, handleSubmit } = useForm({ criteriaMode: 'all' });
+// error text for invalid inputs
+const ErrorText = styled.p`
+  color: red;
+  width: 250px;
+`;
+
+const SignUpForm = ({
+  handleSignUpClick,
+  handleLoginClick,
+  handleSignUpSubmit,
+  showLogin,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ criteriaMode: 'all' });
   return (
-    <form>
+    <form onSubmit={handleSubmit(handleSignUpSubmit)}>
       <SignUpFormContainer>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<CgProfile />} />
-            <UserNameInput placeholder="Username" />
+            <UserNameInput
+              placeholder="Username"
+              {...register('username', {
+                required: 'This input is required',
+                minLength: {
+                  value: 3,
+                  message: 'Username must be at least 3 characters',
+                },
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ messages }) => {
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <ErrorText key={type}>{message}</ErrorText>
+                    ))
+                  : null;
+              }}
+            />
           </InputContainer>
         </InputGroup>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<MdEmail />} />
-            <EmailInput placeholder="Email Address" />
+            <EmailInput
+              placeholder="Email Address"
+              type="email"
+              {...register('email', {
+                required: 'This input is required',
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ messages }) => {
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <ErrorText key={type}>{message}</ErrorText>
+                    ))
+                  : null;
+              }}
+            />
           </InputContainer>
         </InputGroup>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<AiFillLock />} />
-            <PasswordInput placeholder="Password" />
+            <PasswordInput
+              placeholder="Password"
+              type="password"
+              {...register('password', {
+                required: 'This input is required',
+                pattern: {
+                  value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                  message:
+                    'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters',
+                },
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ messages }) => {
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <ErrorText style={{ textAlign: 'center' }} key={type}>
+                        {message}
+                      </ErrorText>
+                    ))
+                  : null;
+              }}
+            />
           </InputContainer>
         </InputGroup>
         <ButtonGroup>
-          <LoginButton type="button" onClick={handleLoginClick}>
+          <LoginButton
+            type="button"
+            onClick={handleLoginClick}
+            showLogin={showLogin}
+          >
             Login
           </LoginButton>
-          <SignUpButton type="button" onClick={handleSignUpClick}>
+          <SignUpButton
+            type="button"
+            onClick={handleSignUpClick}
+            showLogin={showLogin}
+          >
             Sign up
           </SignUpButton>
         </ButtonGroup>

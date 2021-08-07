@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 
+// #ffa500
 const SignUpButton = styled.button`
   cursor: pointer;
   border: none;
   font-family: 'Rubik';
   font-size: 1.0625rem;
   font-weight: bold;
-  background-color: #ffa500;
+  background-color: ${(props) => (!props.showLogin ? '#ffa500' : '#fff')};
   padding: 0.625rem 1.25rem;
   border-radius: 5px;
   margin-top: 0.625rem;
 
   &:hover {
-    background-color: #ffc108;
+    background-color: ${(props) => (!props.showLogin ? '#ffc108' : '#eee')};
   }
 `;
 
@@ -22,13 +23,15 @@ const LoginButton = styled.button`
   font-family: 'Rubik';
   font-size: 1.0625rem;
   font-weight: bold;
-  background-color: #fff;
+  background-color: ${(props) => (props.showLogin ? '#ffa500' : '#fff')};
   padding: 0.625rem 1.25rem;
   border-radius: 5px;
   margin-top: 0.625rem;
 
   &:hover {
-    background-color: #eee;
+    &:hover {
+      background-color: ${(props) => (props.showLogin ? '#ffc108' : '#eee')};
+    }
   }
 `;
 
