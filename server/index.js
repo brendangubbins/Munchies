@@ -45,7 +45,8 @@ io.on('connection', (socket) => {
 
       const data = {
         message,
-        username,
+        room,
+        username: sender,
       };
 
       socket.to(room).emit('receive-message', data);
