@@ -11,6 +11,7 @@ const SocialIcons = () => {
         target="_blank"
         color="white"
         _hover={{ color: "#ffc108" }}
+        href="https://github.com/brendangubbins/Munchies"
       >
         <FaGithub fontSize="60px" />
       </Link>
