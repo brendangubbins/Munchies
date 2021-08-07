@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import Selection from "./Selection";
-import Chat from "./Chat";
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import Selection from './Selection';
+import Chat from './Chat';
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 const LeftAlign = styled.section`
   display: flex;
   background-color: #ffffff;
+
   color: black;
   width: 70%;
   flex-direction: column;
@@ -26,6 +27,7 @@ const RightAlign = styled.section`
   color: black;
   justify-content: center;
   align-items: center;
+  margin-left: 2rem;
 `;
 const Room = ({ socket }) => {
   useEffect(() => {
