@@ -37,18 +37,16 @@ const Navbar = () => {
         </Link>
       </motion.button>
       <Flex justifyContent="space-between">
-        <motion.button whileHover={{ scale: 1.1 }}>
-          <Link to="About">
-            <Button
-              m="1rem"
-              bgColor="white"
-              fontFamily="Rubik"
-              _hover={{ bgColor: "#ffc108" }}
-            >
-              About
-            </Button>
-          </Link>
-        </motion.button>
+        <Link to="About">
+          <Button
+            m="1rem"
+            bgColor="white"
+            fontFamily="Rubik"
+            _hover={{ bgColor: "#ffc108" }}
+          >
+            About
+          </Button>
+        </Link>
       </Flex>
     </Nav>
   );
