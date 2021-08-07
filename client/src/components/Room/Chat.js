@@ -138,7 +138,48 @@ const SendButton = styled.button`
   }
 `;
 
-const Chat = () => {
+const Chat = ({ socket }) => {
+  // State for storing every message sent during application use
+  const [messages, setMessages] = useState([]);
+
+  // State for current message being typed or to be sent
+  const [message, setMessage] = useState('');
+
+  // State for storing active room number
+  const [room, setRoom] = useState('');
+
+  // State for storing current user
+  const [name, setName] = useState(
+    JSON
+      .parse(window.sessionStorage
+        .getItem('loggedMunchiesUser')
+      ).username);
+
+  // State for storing second user in the room
+  const [guestName, setGuestName] = useState('');
+
+  /* 
+  useEffect hook to store incoming messages into state
+  and differentiate between user and guest messages
+  */
+  useEffect(() => {
+    socket.on('receive-message', (data) => {
+      const messageObj = {
+        message: data.message,
+        guest: true,
+      };
+
+      if (data.username !== username) {
+        setGuestName(data.username);
+        setMessages(messages.concat(messageObj));
+      }
+    });
+
+    return () => {
+      socket.off('receive-message');
+    };
+  }, [messages]);
+
   return (
     <OuterBox>
       <RoomNumber>Room Code: Test</RoomNumber>

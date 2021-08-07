@@ -27,11 +27,11 @@ const RightAlign = styled.section`
   justify-content: center;
   align-items: center;
 `;
-const Room = () => {
+const Room = ({ socket }) => {
   return (
     <Wrapper>
       <LeftAlign>
-        <Chat />
+        <Chat socket={socket} />
       </LeftAlign>
       <RightAlign>
         <Selection />
