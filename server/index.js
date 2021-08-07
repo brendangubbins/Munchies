@@ -74,14 +74,6 @@ io.on('connection', (socket) => {
     socket.to(room).emit('user-ready', data, sender, guestLocation);
   });
 
-  socket.on('send-yelp', (data, sender) => {
-    let room;
-    socket.rooms.forEach((roomName) => {
-      room = roomName;
-    });
-    socket.to(room).emit('retrieve-yelp', data, sender);
-  });
-
   socket.on('disconnect', () => {
     console.log('Socket has disconnected');
   });
