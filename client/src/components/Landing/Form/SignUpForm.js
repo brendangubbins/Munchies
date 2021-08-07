@@ -35,6 +35,11 @@ const ButtonGroup = styled.div`
 const ErrorText = styled.p`
   color: red;
   width: 250px;
+
+  &::before {
+    display: inline;
+    content: '⚠ ';
+  }
 `;
 
 const SignUpForm = ({
@@ -70,7 +75,9 @@ const SignUpForm = ({
               render={({ messages }) => {
                 return messages
                   ? Object.entries(messages).map(([type, message]) => (
-                      <ErrorText key={type}>{message}</ErrorText>
+                      <ErrorText style={{ textAlign: 'center' }} key={type}>
+                        {message}
+                      </ErrorText>
                     ))
                   : null;
               }}
@@ -93,7 +100,9 @@ const SignUpForm = ({
               render={({ messages }) => {
                 return messages
                   ? Object.entries(messages).map(([type, message]) => (
-                      <ErrorText key={type}>{message}</ErrorText>
+                      <ErrorText style={{ textAlign: 'center' }} key={type}>
+                        {message}
+                      </ErrorText>
                     ))
                   : null;
               }}

@@ -7,6 +7,7 @@ import { UserNameInput, PasswordInput } from './FormInputs';
 import { LoginButton, SignUpButton, SubmitButton } from './FormButtons';
 import { ErrorMessage } from '@hookform/error-message';
 import { useForm } from 'react-hook-form';
+import LoginFormErrMsg from './LoginFormErrMsg';
 
 // main container for login form
 const LoginFormContainer = styled.div`
@@ -34,6 +35,11 @@ const ButtonGroup = styled.div`
 const ErrorText = styled.p`
   color: red;
   width: 250px;
+
+  &::before {
+    display: inline;
+    content: '⚠ ';
+  }
 `;
 
 const LoginForm = ({
@@ -41,6 +47,7 @@ const LoginForm = ({
   handleSignUpClick,
   handleLoginSubmit,
   showLogin,
+  errorMessage,
 }) => {
   const {
     register,
@@ -50,6 +57,8 @@ const LoginForm = ({
   return (
     <form onSubmit={handleSubmit(handleLoginSubmit)}>
       <LoginFormContainer>
+        <LoginFormErrMsg errorMessage={errorMessage} />
+
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<CgProfile />} />
@@ -69,7 +78,9 @@ const LoginForm = ({
               render={({ messages }) => {
                 return messages
                   ? Object.entries(messages).map(([type, message]) => (
-                      <ErrorText key={type}>{message}</ErrorText>
+                      <ErrorText style={{ textAlign: 'center' }} key={type}>
+                        {message}
+                      </ErrorText>
                     ))
                   : null;
               }}
@@ -92,7 +103,9 @@ const LoginForm = ({
               render={({ messages }) => {
                 return messages
                   ? Object.entries(messages).map(([type, message]) => (
-                      <ErrorText key={type}>{message}</ErrorText>
+                      <ErrorText style={{ textAlign: 'center' }} key={type}>
+                        {message}
+                      </ErrorText>
                     ))
                   : null;
               }}

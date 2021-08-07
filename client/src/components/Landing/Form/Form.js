@@ -5,6 +5,7 @@ import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import loginService from '../../../services/login';
 import registerService from '../../../services/register';
+import { useHistory } from 'react-router-dom';
 
 const LandingFormTitle = styled.h1`
   margin: 1.5rem 0;
@@ -15,8 +16,9 @@ const LandingFormTitle = styled.h1`
 `;
 
 const Form = () => {
+  let history = useHistory();
   const [showLogin, setShowLogin] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(null);
   // onclick functions to switch rendering between sign up and login form
   const handleLoginClick = () => setShowLogin(true);
   const handleSignUpClick = () => setShowLogin(false);
@@ -39,9 +41,14 @@ const Form = () => {
           'loggedMunchiesUser',
           JSON.stringify(returnUserData)
         );
+        history.push('/Room');
       }
     } catch (exception) {
       console.log(exception);
+      setErrorMessage('Invalid username or password');
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     }
   };
 
@@ -56,6 +63,8 @@ const Form = () => {
       password,
       email,
     });
+
+    setShowLogin(true);
   };
 
   return (
@@ -80,6 +89,7 @@ const Form = () => {
           handleLoginClick={handleLoginClick}
           handleLoginSubmit={onLoginSubmit}
           showLogin={showLogin}
+          errorMessage={errorMessage}
         />
       ) : (
         <SignUpForm
