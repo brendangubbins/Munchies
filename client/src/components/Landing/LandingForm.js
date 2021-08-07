@@ -1,6 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import Form from './Form/Form';
+import { Button } from "@chakra-ui/react";
+import React from "react";
+import styled from "styled-components";
+import { Flex, Center, Box, chakra, Image } from "@chakra-ui/react";
+import Form from "./Form/Form";
+import locations from "../../Images/locations.svg";
+import rekindle from "../../Images/rekindle.svg";
+import supportLocal from "../../Images/supportLocal.svg";
 
 // main container for Form
 const FormContainer = styled.div`
@@ -36,9 +41,57 @@ const FormContainer = styled.div`
 
 const LandingForm = () => {
   return (
-    <FormContainer>
-      <Form />
-    </FormContainer>
+    <Flex flexDirection="column">
+      <Center>
+        <Button
+          size="lg"
+          bgColor="#ffa500"
+          _hover={{ bgColor: "#ffc108" }}
+          fontFamily="Rubik"
+        >
+          Login
+        </Button>
+      </Center>
+      <Center>
+        <Flex
+          // bg={"#F9FAFB"}
+          w="40%"
+          alignItems="center"
+          justifyContent="center"
+          // ml="7rem"
+          flexDirection={[
+            "column",
+            "column",
+            "column",
+            "column",
+            "column",
+            "row",
+          ]}
+          mb="2rem"
+        >
+          <Box>
+            <Box py={10} px={6} w={{ lg: "70%", lg: "50%" }}>
+              <chakra.h2
+                fontSize={{ base: "2xl", md: "3xl" }}
+                color={"gray.800"}
+                fontWeight="bold"
+              >
+                Familiar cuisines, new{" "}
+                <chakra.span color="orange">adventures</chakra.span>
+              </chakra.h2>
+              <chakra.p mt={4} color={"gray.600"} fontWeight="semibold">
+                Plan your next foodie adventure with your friends and family by
+                live messaging and browsing restaurants in your area!
+              </chakra.p>
+            </Box>
+          </Box>
+          <Image src={locations} boxSize="sm" draggable="false"></Image>
+        </Flex>
+      </Center>
+      <FormContainer>
+        <Form />
+      </FormContainer>
+    </Flex>
   );
 };
 

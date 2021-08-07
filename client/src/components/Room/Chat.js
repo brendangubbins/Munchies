@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
 // main container for chat section
 const OuterBox = styled.div`
@@ -28,7 +28,7 @@ const RoomButton = styled.button`
   padding: 0.5rem;
   background: #ffa500;
   color: black;
-  font-family: 'Rubik';
+  font-family: "Rubik";
 
   &:hover {
     background-color: #ffc100;
@@ -145,32 +145,38 @@ const SendButton = styled.button`
 `;
 
 const Chat = ({ socket }) => {
+<<<<<<< HEAD
   // valid user info from session storage
   const username = JSON.parse(
     window.sessionStorage.getItem('loggedMunchiesUser')
   ).username;
 
+=======
+  const username = JSON.parse(
+    window.sessionStorage.getItem("loggedMunchiesUser")
+  ).username;
+>>>>>>> 3c0cb882cdc6c9fb820954a56fa49da8772c18fd
   // State for storing every message sent during application use
   const [messages, setMessages] = useState([]);
 
   // State for current message being typed or to be sent
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   // State for storing active room number
-  const [room, setRoom] = useState('');
+  const [room, setRoom] = useState("");
 
   // State for storing current user
   const [name, setName] = useState(username);
 
   // State for storing second user in the room
-  const [guestName, setGuestName] = useState('');
+  const [guestName, setGuestName] = useState("");
 
   /* 
   useEffect hook to store incoming messages into state
   and differentiate between user and guest messages
   */
   useEffect(() => {
-    socket.on('receive-message', (data) => {
+    socket.on("receive-message", (data) => {
       const messageObj = {
         message: data.message,
         userGuest: true,
@@ -183,7 +189,7 @@ const Chat = ({ socket }) => {
     });
 
     return () => {
-      socket.off('receive-message');
+      socket.off("receive-message");
     };
   }, [messages]);
 
