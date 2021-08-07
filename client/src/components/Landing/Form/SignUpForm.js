@@ -6,6 +6,7 @@ import { AiFillLock } from 'react-icons/ai';
 import { MdEmail } from 'react-icons/md';
 import { SignUpButton, LoginButton, SubmitButton } from './FormButtons';
 import { UserNameInput, PasswordInput, EmailInput } from './FormInputs';
+import { useForm } from 'react-hook-form';
 
 // main container for sign up form
 const SignUpFormContainer = styled.div`
@@ -30,6 +31,7 @@ const ButtonGroup = styled.div`
 `;
 
 const SignUpForm = ({ handleSignUpClick, handleLoginClick }) => {
+  const { register, handleSubmit } = useForm({ criteriaMode: 'all' });
   return (
     <form>
       <SignUpFormContainer>
