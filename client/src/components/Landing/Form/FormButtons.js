@@ -10,7 +10,7 @@ const SignUpButton = styled.button`
   background-color: ${(props) => (!props.showLogin ? '#ffa500' : '#fff')};
   padding: 0.625rem 1.25rem;
   border-radius: 5px;
-  margin-top: 0.625rem;
+  margin-bottom: 2rem;
 
   &:hover {
     background-color: ${(props) => (!props.showLogin ? '#ffc108' : '#eee')};
@@ -26,7 +26,7 @@ const LoginButton = styled.button`
   background-color: ${(props) => (props.showLogin ? '#ffa500' : '#fff')};
   padding: 0.625rem 1.6rem;
   border-radius: 5px;
-  margin-top: 0.625rem;
+  margin-bottom: 2rem;
 
   &:hover {
     &:hover {
