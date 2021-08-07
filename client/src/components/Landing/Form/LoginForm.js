@@ -5,6 +5,8 @@ import { CgProfile } from 'react-icons/cg';
 import { AiFillLock } from 'react-icons/ai';
 import { UserNameInput, PasswordInput } from './FormInputs';
 import { LoginButton, SignUpButton, SubmitButton } from './FormButtons';
+import { ErrorMessage } from '@hookform/error-message';
+import { useForm } from 'react-hook-form';
 
 // main container for login form
 const LoginFormContainer = styled.div`
@@ -28,27 +30,88 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
 `;
 
-const LoginForm = ({ handleLoginClick, handleSignUpClick }) => {
+// error text for invalid inputs
+const ErrorText = styled.p`
+  color: red;
+  width: 250px;
+`;
+
+const LoginForm = ({
+  handleLoginClick,
+  handleSignUpClick,
+  handleLoginSubmit,
+  showLogin,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ criteriaMode: 'all' });
   return (
-    <form>
+    <form onSubmit={handleSubmit(handleLoginSubmit)}>
       <LoginFormContainer>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<CgProfile />} />
-            <UserNameInput placeholder="Username" />
+            <UserNameInput
+              placeholder="Username"
+              {...register('username', {
+                required: 'This input is required',
+                minLength: {
+                  value: 3,
+                  message: 'This input must be at least 3 characters',
+                },
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ messages }) => {
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <ErrorText key={type}>{message}</ErrorText>
+                    ))
+                  : null;
+              }}
+            />
           </InputContainer>
         </InputGroup>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<AiFillLock />} />
-            <PasswordInput placeholder="Password" type="password" />
+            <PasswordInput
+              placeholder="Password"
+              type="password"
+              {...register('password', {
+                required: 'This inpus is required',
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ messages }) => {
+                return messages
+                  ? Object.entries(messages).map(([type, message]) => (
+                      <ErrorText key={type}>{message}</ErrorText>
+                    ))
+                  : null;
+              }}
+            />
           </InputContainer>
         </InputGroup>
         <ButtonGroup>
-          <LoginButton type="button" onClick={handleLoginClick}>
+          <LoginButton
+            type="button"
+            onClick={handleLoginClick}
+            showLogin={showLogin}
+          >
             Login
           </LoginButton>
-          <SignUpButton type="button" onClick={handleSignUpClick}>
+          <SignUpButton
+            type="button"
+            onClick={handleSignUpClick}
+            showLogin={showLogin}
+          >
             Sign up
           </SignUpButton>
         </ButtonGroup>
