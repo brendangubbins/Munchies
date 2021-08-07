@@ -73,12 +73,12 @@ const Form = () => {
         {showLogin ? (
           <div>
             <h3>Munchies</h3>
-            <h3>Welcome Back!</h3>
+            <h3 style={{ fontFamily: 'Rubik' }}>Welcome Back!</h3>
           </div>
         ) : (
           <div>
             <h3>Munchies</h3>
-            <h3>Create Your Account</h3>
+            <h3 style={{ fontFamily: 'Rubik' }}>Create Your Account</h3>
           </div>
         )}
       </LandingFormTitle>

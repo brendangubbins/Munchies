@@ -53,6 +53,10 @@ const ChatContainer = styled.div`
   width: 100%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
+
+  @media only screen and (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 // container for all messages
@@ -86,12 +90,14 @@ const NameAndMsgContainer = styled.div`
 `;
 
 // single message component
+// #ffa500
 const Message = styled.div`
   display: inline-block;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   border-radius: 20px;
   max-width: 200px;
-  background: #ffa500;
+  background: ${(props) => (props.guest ? '#404040' : '#ffa500')};
+  color: ${(props) => (props.guest ? 'white' : 'black')};
   padding: 0.2rem 2rem;
   margin: 0.3rem 0;
   margin-top: 0;
@@ -139,6 +145,11 @@ const SendButton = styled.button`
 `;
 
 const Chat = ({ socket }) => {
+  // valid user info from session storage
+  const username = JSON.parse(
+    window.sessionStorage.getItem('loggedMunchiesUser')
+  ).username;
+
   // State for storing every message sent during application use
   const [messages, setMessages] = useState([]);
 
@@ -149,11 +160,7 @@ const Chat = ({ socket }) => {
   const [room, setRoom] = useState('');
 
   // State for storing current user
-  const [name, setName] = useState(
-    JSON
-      .parse(window.sessionStorage
-        .getItem('loggedMunchiesUser')
-      ).username);
+  const [name, setName] = useState(username);
 
   // State for storing second user in the room
   const [guestName, setGuestName] = useState('');
@@ -166,7 +173,7 @@ const Chat = ({ socket }) => {
     socket.on('receive-message', (data) => {
       const messageObj = {
         message: data.message,
-        guest: true,
+        userGuest: true,
       };
 
       if (data.username !== username) {
@@ -180,43 +187,90 @@ const Chat = ({ socket }) => {
     };
   }, [messages]);
 
+  socket.on('connect', () => {
+    console.log(`Connecting ${socket.id}`);
+  });
+
+  // function to control message input state changes
+  const handleMessageText = (e) => {
+    // console.log(e.target.value)
+    setMessage(e.target.value);
+  };
+
+  // function to handle a user joining a room
+  const handleRoomJoin = () => {
+    console.log('Room: ', room);
+    socket.emit('join-room', room, (message) => {
+      console.log(message);
+    });
+  };
+
+  // function to control room input state changes
+  const handleRoomText = (e) => {
+    // console.log(e.target.value)
+    setRoom(e.target.value);
+  };
+
+  // function to handle sending messages with socket.io
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+
+    const messageObj = {
+      message: message,
+      userGuest: false,
+    };
+    setMessages(messages.concat(messageObj));
+
+    socket.emit('send-message', message, room, username);
+    setMessage('');
+  };
+
   return (
     <OuterBox>
-      <RoomNumber>Room Code: Test</RoomNumber>
+      <RoomNumber>Room Code: {name}</RoomNumber>
       <EnterRoomContainer>
-        <RoomInput placeholder="Room code" />
-        <RoomButton>Enter</RoomButton>
+        <RoomInput
+          placeholder="Room code"
+          value={room}
+          onChange={handleRoomText}
+        />
+        <RoomButton onClick={handleRoomJoin}>Enter</RoomButton>
       </EnterRoomContainer>
       <ChatContainer>
         <MessagesContainer>
-          <UserMessage>
-            <NameAndMsgContainer>
-              <Name>Test</Name>
-              <Message>Hi</Message>
-            </NameAndMsgContainer>
-          </UserMessage>
-          <UserMessage>
-            <NameAndMsgContainer>
-              <Name>Test</Name>
-              <Message>Hi</Message>
-            </NameAndMsgContainer>
-          </UserMessage>
-          <GuestMessage>
-            <NameAndMsgContainer>
-              <Name>Test</Name>
-              <Message>Hi</Message>
-            </NameAndMsgContainer>
-          </GuestMessage>
-          <GuestMessage>
-            <NameAndMsgContainer>
-              <Name>Test</Name>
-              <Message>Hello</Message>
-            </NameAndMsgContainer>
-          </GuestMessage>
+          {messages.map((msg, index) => {
+            /* dynamically render guest messages */
+            if (msg.userGuest) {
+              return (
+                <GuestMessage guest={msg.userGuest} key={index}>
+                  <NameAndMsgContainer>
+                    <Name>{guestName}</Name>
+                    <Message guest={msg.userGuest}>{msg.message}</Message>
+                  </NameAndMsgContainer>
+                </GuestMessage>
+              );
+            }
+
+            /* dynamically render user messages */
+            return (
+              <UserMessage guest={msg.userGuest} key={index}>
+                <NameAndMsgContainer>
+                  <Name>{name}</Name>
+                  <Message guest={msg.userGuest}>{msg.message}</Message>
+                </NameAndMsgContainer>
+              </UserMessage>
+            );
+          })}
         </MessagesContainer>
         <MessageForm>
-          <MessageInput placeholder="Send a message" />
-          <SendButton type="submit">Submit</SendButton>
+          <MessageInput
+            placeholder="Send a message"
+            value={message}
+            onChange={handleMessageText}
+          />
+          <SendButton type="submit" onClick={handleSendMessage}>
+            Submit
+          </SendButton>
         </MessageForm>
       </ChatContainer>
     </OuterBox>

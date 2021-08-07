@@ -28,7 +28,7 @@ const InputContainer = styled.div`
 // container for Login and Sign up switch buttons
 const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 // error text for invalid inputs
@@ -58,7 +58,22 @@ const LoginForm = ({
     <form onSubmit={handleSubmit(handleLoginSubmit)}>
       <LoginFormContainer>
         <LoginFormErrMsg errorMessage={errorMessage} />
-
+        <ButtonGroup>
+          <LoginButton
+            type="button"
+            onClick={handleLoginClick}
+            showLogin={showLogin}
+          >
+            Login
+          </LoginButton>
+          <SignUpButton
+            type="button"
+            onClick={handleSignUpClick}
+            showLogin={showLogin}
+          >
+            Sign up
+          </SignUpButton>
+        </ButtonGroup>
         <InputGroup>
           <InputContainer>
             <InputLeftElement pointerEvents="none" children={<CgProfile />} />
@@ -112,22 +127,7 @@ const LoginForm = ({
             />
           </InputContainer>
         </InputGroup>
-        <ButtonGroup>
-          <LoginButton
-            type="button"
-            onClick={handleLoginClick}
-            showLogin={showLogin}
-          >
-            Login
-          </LoginButton>
-          <SignUpButton
-            type="button"
-            onClick={handleSignUpClick}
-            showLogin={showLogin}
-          >
-            Sign up
-          </SignUpButton>
-        </ButtonGroup>
+
         <SubmitButton>Submit</SubmitButton>
       </LoginFormContainer>
     </form>

@@ -6,6 +6,7 @@ const UserNameInput = styled.input`
   padding-left: 2rem;
   border: 2px solid lightgray;
   margin-left: 0.5rem;
+  width: 100%;
 
   &:focus {
     border: 2px solid #666;
@@ -19,6 +20,7 @@ const EmailInput = styled.input`
   padding-left: 2rem;
   border: 2px solid lightgray;
   margin-left: 0.5rem;
+  width: 100%;
 
   &:focus {
     border: 2px solid #666;
@@ -32,6 +34,7 @@ const PasswordInput = styled.input`
   padding-left: 2rem;
   border: 2px solid lightgray;
   margin-left: 0.5rem;
+  width: 100%;
 
   &:focus {
     border: 2px solid #666;

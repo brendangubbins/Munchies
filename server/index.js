@@ -33,20 +33,18 @@ const io = socket(app.server, {
 });
 
 io.on('connection', (socket) => {
-
   console.log(`Connecting with ${socket.id}`);
 
-  socket.on('send-message', (message, room, sender) => {
+  socket.on('send-message', (message, room, username) => {
     if (room) {
-
       console.log(`Message is ${message}`);
       console.log(`Room is ${room}`);
-      console.log(`Sender is ${sender}`);
+      console.log(`Sender is ${username}`);
 
       const data = {
         message,
         room,
-        username: sender,
+        username,
       };
 
       socket.to(room).emit('receive-message', data);
@@ -64,8 +62,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('Socket has disconnected');
-  })
-
+  });
 });
 
 module.exports = app;
