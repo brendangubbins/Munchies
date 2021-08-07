@@ -1,11 +1,15 @@
-import React from 'react';
+import React from "react";
+import Hero from "./Hero";
+import LandingForm from "./LandingForm";
 
 const Landing = () => {
   return (
-    <div>
-
-    </div>
+    <>
+      <Hero />
+      <br></br>
+      <LandingForm />
+    </>
   );
-}
+};
 
 export default Landing;
