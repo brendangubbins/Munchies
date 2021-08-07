@@ -286,8 +286,6 @@ const Selection = ({ socket }) => {
   // const [finalData, setFinalData] = useState([]);
 
   // State to hold Yelp API Data response
-  const [userAPI, setUserAPI] = useState([]);
-  const [guestAPI, setGuestAPI] = useState([]);
   const [yelpAPIData, setYelpAPIData] = useState([]);
 
   // State to track "ready" status from socket.io
@@ -319,9 +317,7 @@ const Selection = ({ socket }) => {
       console.log(`Search terms: ${parameters}`);
 
       const response = await locationToYelp(parameters);
-      setUserAPI(response);
-      socket.emit('send-yelp', response);
-      //setYelpAPIData(response);
+      setYelpAPIData(response);
     }
 
     // Only if both users are ready, then make the API call
@@ -329,14 +325,6 @@ const Selection = ({ socket }) => {
       callYelp();
     }
   }, [ready, guestReady]);
-
-  useEffect(() => {
-    if (userAPI.length !== 0 && guestAPI.length !== 0) {
-      let ids = new Set(userAPI.map(restaurant => restaurant.id))
-      const combinedData = [...userAPI, ...guestAPI.filter(restaurant => !ids.has(restaurant.id))];
-      setYelpAPIData([...combinedData]);
-    }
-  }, [userAPI, guestAPI]);
 
   // Fire this whenever a user clicks on a cuisine button
   const handleClick = ({ food }) => {
@@ -378,12 +366,6 @@ const Selection = ({ socket }) => {
       setGuestData(data);
       setGuestLocation(guestLocation);
       setGuestReady(true);
-    }
-  });
-
-  socket.on('retrieve-yelp', (data, sender) => {
-    if (username !== sender) {
-      setGuestAPI(data);
     }
   });
 
