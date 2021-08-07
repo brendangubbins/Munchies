@@ -1,6 +1,6 @@
-import { Button } from "@chakra-ui/react";
+import { useRef } from "react";
 import styled from "styled-components";
-import { Flex, Center, Box, chakra, Image } from "@chakra-ui/react";
+import { Flex, Center, Box, chakra, Image, Button } from "@chakra-ui/react";
 import Form from "./Form/Form";
 import locations from "../../Images/locations.svg";
 import rekindle from "../../Images/rekindle.svg";
@@ -39,6 +39,8 @@ const FormContainer = styled.div`
 `;
 
 const LandingForm = () => {
+  const myRef = useRef(null);
+  const executeScroll = () => myRef.current.scrollIntoView();
   return (
     <Flex flexDirection="column">
       <Center>
@@ -47,6 +49,7 @@ const LandingForm = () => {
           bgColor="#ffa500"
           _hover={{ bgColor: "#ffc108" }}
           fontFamily="Rubik"
+          onClick={executeScroll}
         >
           Login
         </Button>
@@ -148,7 +151,7 @@ const LandingForm = () => {
         </Flex>
       </Center>
       <div style={{ width: "100%" }}>
-        <FormContainer>
+        <FormContainer ref={myRef}>
           <Form />
         </FormContainer>
       </div>
