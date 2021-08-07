@@ -14,6 +14,24 @@ const FormContainer = styled.div`
   padding: 2rem 1rem;
   border-radius: 5px;
   border: 1px solid #eaeaea;
+
+  @media only screen and (max-width: 1052px) {
+    width: 50%;
+  }
+
+  @media only screen and (max-width: 700px) {
+    width: 60%;
+    padding: 2rem 3rem;
+  }
+
+  @media only screen and (max-width: 514px) {
+    width: 90%;
+    padding: 4rem;
+  }
+
+  @media only screen and (max-width: 350px) {
+    width: 100%;
+  }
 `;
 
 const LandingForm = () => {

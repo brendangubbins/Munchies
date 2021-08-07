@@ -24,7 +24,7 @@ const LoginButton = styled.button`
   font-size: 1.0625rem;
   font-weight: bold;
   background-color: ${(props) => (props.showLogin ? '#ffa500' : '#fff')};
-  padding: 0.625rem 1.25rem;
+  padding: 0.625rem 1.6rem;
   border-radius: 5px;
   margin-top: 0.625rem;
 
