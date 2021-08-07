@@ -62,6 +62,14 @@ io.on('connection', (socket) => {
     cb(`You joined ${room}`);
   });
 
+  socket.on('submit-ready', (data, sender, guestLocation) => {
+    // dummy coordinates of Morningside Heights
+    guestLocation[0] = 40.8075;
+    guestLocation[1] = -73.9626;
+    console.log(`Socket receiving ${data} from ${sender} in location ${guestLocation}`);
+    socket.to('123').emit('user-ready', data, sender, guestLocation);
+  });
+
   socket.on('disconnect', () => {
     console.log('Socket has disconnected');
   });
