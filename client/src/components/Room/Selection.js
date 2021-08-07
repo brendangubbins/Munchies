@@ -53,6 +53,8 @@ import Vegetarian from "../../foodImages/Vegetarian.jpg";
 import Viet from "../../foodImages/Viet.jpg";
 import Wings from "../../foodImages/Wings.jpg";
 import Wraps from "../../foodImages/Wraps.jpg";
+import locationToYelp from "./YelpAPI";
+import FoodCards from "./FoodCards";
 
 const Title = styled.h2`
   font-family: "Rubik";
@@ -273,6 +275,9 @@ const Selection = () => {
   //State to hold what cuisine the user selects
   const [cuisineData, setCuisineData] = useState([]);
 
+  //State to hold Yelp API Data response
+  const [yelpAPIData, setYelpAPIData] = useState([]);
+
   //Fire this whenever a user clicks on a cuisine button
   const handleClick = ({ food }) => {
     //If we don't have this food, add it to the state
@@ -290,73 +295,89 @@ const Selection = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    const obj = { location: "New York", term: cuisineData };
+    let res = await locationToYelp(obj);
+    setYelpAPIData(res);
+  };
+
   //Render the food buttons for the user to pick
-  return (
-    <Flex direction="column">
-      <Title>Select your favorite cuisines 😋</Title>
-      <Center>
-        <Box>
-          <Center>
-            <Flex>
-              <Center>
-                {cuisineData.length >= 1 ? (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ rotate: 360, scale: 1 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
-                    }}
-                  >
-                    <Button
-                      size="lg"
-                      bgColor="#ffa500"
-                      _hover={{ backgroundColor: "#ffc108" }}
-                      fontFamily="Rubik"
+  if (yelpAPIData.length === 0) {
+    return (
+      <Flex direction="column">
+        <Title>Select your favorite cuisines 😋</Title>
+        <Center>
+          <Box>
+            <Center>
+              <Flex>
+                <Center>
+                  {cuisineData.length >= 1 ? (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ rotate: 360, scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20,
+                      }}
                     >
-                      Submit
+                      <Button
+                        size="lg"
+                        bgColor="#ffa500"
+                        _hover={{ backgroundColor: "#ffc108" }}
+                        fontFamily="Rubik"
+                        onClick={handleSubmit}
+                      >
+                        Submit
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    ""
+                  )}
+                </Center>
+              </Flex>
+            </Center>
+            <Flex width="100%">
+              <Text mt="2rem" ml="1rem" fontFamily="Rubik" fontSize="xl">
+                Categories
+              </Text>
+            </Flex>
+            <Center>
+              <Flex direction="row" flexWrap="wrap" w="100%">
+                {foodCategories.map((food) => {
+                  return (
+                    <Button
+                      key={food.name}
+                      variant="solid"
+                      margin=".5rem"
+                      onClick={() => handleClick({ food })}
+                    >
+                      <Avatar
+                        src={food.image}
+                        size="sm"
+                        justifyContent="flex-start"
+                        mr=".5rem"
+                      />
+                      {food.name}
+                      {/* If the user clicked on the button, add a checkmark to show it went through */}
+                      {cuisineData.includes(food.name) ? "✔️" : " "}
                     </Button>
-                  </motion.div>
-                ) : (
-                  ""
-                )}
-              </Center>
-            </Flex>
-          </Center>
-          <Flex width="100%">
-            <Text mt="2rem" ml="1rem" fontFamily="Rubik" fontSize="xl">
-              Categories
-            </Text>
-          </Flex>
-          <Center>
-            <Flex direction="row" flexWrap="wrap" w="100%">
-              {foodCategories.map((food) => {
-                return (
-                  <Button
-                    key={food.name}
-                    variant="solid"
-                    margin=".5rem"
-                    onClick={() => handleClick({ food })}
-                  >
-                    <Avatar
-                      src={food.image}
-                      size="sm"
-                      justifyContent="flex-start"
-                      mr=".5rem"
-                    />
-                    {food.name}
-                    {/* If the user clicked on the button, add a checkmark to show it went through */}
-                    {cuisineData.includes(food.name) ? "✔️" : " "}
-                  </Button>
-                );
-              })}
-            </Flex>
-          </Center>
-        </Box>
-      </Center>
-    </Flex>
-  );
+                  );
+                })}
+              </Flex>
+            </Center>
+          </Box>
+        </Center>
+      </Flex>
+    );
+  } else {
+    //Once we have the yelp response, render the cards
+    return (
+      <Flex justifyContent="flex-start" alignItems="flex-start">
+        <FoodCards yelpAPIData={yelpAPIData} />
+      </Flex>
+    );
+  }
 };
 
 export default Selection;

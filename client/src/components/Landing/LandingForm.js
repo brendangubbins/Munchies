@@ -1,5 +1,4 @@
 import { Button } from "@chakra-ui/react";
-import React from "react";
 import styled from "styled-components";
 import { Flex, Center, Box, chakra, Image } from "@chakra-ui/react";
 import Form from "./Form/Form";
@@ -52,6 +51,8 @@ const LandingForm = () => {
           Login
         </Button>
       </Center>
+
+      {/* First Card */}
       <Center>
         <Flex
           // bg={"#F9FAFB"}
@@ -59,18 +60,11 @@ const LandingForm = () => {
           alignItems="center"
           justifyContent="center"
           // ml="7rem"
-          flexDirection={[
-            "column",
-            "column",
-            "column",
-            "column",
-            "column",
-            "row",
-          ]}
+          flexDirection={["column", "column", "row", "row"]}
           mb="2rem"
         >
           <Box>
-            <Box py={10} px={6} w={{ lg: "70%", lg: "50%" }}>
+            <Box py={10} px={6} w={{ lg: "100%" }}>
               <chakra.h2
                 fontSize={{ base: "2xl", md: "3xl" }}
                 color={"gray.800"}
@@ -88,9 +82,76 @@ const LandingForm = () => {
           <Image src={locations} boxSize="sm" draggable="false"></Image>
         </Flex>
       </Center>
-      <FormContainer>
-        <Form />
-      </FormContainer>
+
+      {/* Second Card */}
+      <Center>
+        <Flex
+          // bg={"#F9FAFB"}
+          w="40%"
+          alignItems="center"
+          justifyContent="center"
+          // ml="7rem"
+          flexDirection="row-reverse"
+          mb="2rem"
+        >
+          <Box>
+            <Box py={10} px={6} w={{ lg: "100%" }}>
+              <chakra.h2
+                fontSize={{ base: "2xl", md: "3xl" }}
+                color={"gray.800"}
+                fontWeight="bold"
+              >
+                Rekindle your{" "}
+                <chakra.span color="orange">relationships</chakra.span>
+              </chakra.h2>
+              <chakra.p mt={4} color={"gray.600"} fontWeight="semibold">
+                Finding a spot that suits everyone's tastes can be hard. We're
+                here to help do that for you. You and your friends can select
+                what foods you like, and we'll show you local spots that you
+                both can enjoy.
+              </chakra.p>
+            </Box>
+          </Box>
+          <Image src={rekindle} boxSize="sm" draggable="false"></Image>
+        </Flex>
+      </Center>
+
+      {/* Third Card */}
+      <Center>
+        <Flex
+          // bg={"#F9FAFB"}
+          w="40%"
+          alignItems="center"
+          justifyContent="center"
+          // ml="7rem"
+          flexDirection="row"
+          mb="2rem"
+        >
+          <Box>
+            <Box py={10} px={6} w={{ lg: "100%" }}>
+              <chakra.h2
+                fontSize={{ base: "2xl", md: "3xl" }}
+                color={"gray.800"}
+                fontWeight="bold"
+              >
+                Support{" "}
+                <chakra.span color="orange">local restaurants</chakra.span>
+              </chakra.h2>
+              <chakra.p mt={4} color={"gray.600"} fontWeight="semibold">
+                This past year has been challenging for all of us, including
+                local businesses. Munchies is designed to showcase only
+                restaurants in your area.
+              </chakra.p>
+            </Box>
+          </Box>
+          <Image src={supportLocal} boxSize="sm" draggable="false"></Image>
+        </Flex>
+      </Center>
+      <div style={{ width: "100%" }}>
+        <FormContainer>
+          <Form />
+        </FormContainer>
+      </div>
     </Flex>
   );
 };

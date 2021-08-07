@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Selection from './Selection';
-import Chat from './Chat';
+import { useEffect } from "react";
+import styled from "styled-components";
+import Selection from "./Selection";
+import Chat from "./Chat";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,6 +28,9 @@ const RightAlign = styled.section`
   align-items: center;
 `;
 const Room = ({ socket }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Wrapper>
       <LeftAlign>
