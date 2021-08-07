@@ -156,7 +156,7 @@ const Chat = ({ socket }) => {
   const [message, setMessage] = useState('');
 
   // State for storing active room number
-  const [room, setRoom] = useState('');
+  const [room, setRoom] = useState(username);
 
   // State for storing current user
   const [name, setName] = useState(username);

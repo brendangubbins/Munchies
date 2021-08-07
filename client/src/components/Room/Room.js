@@ -30,6 +30,16 @@ const RightAlign = styled.section`
 const Room = ({ socket }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // On render, automatically place the user in their room
+
+    const username = JSON.parse(
+      window.sessionStorage.getItem("loggedMunchiesUser")
+    ).username;
+
+    socket.emit('join-room', username, (message) => {
+      console.log(message);
+    });
   }, []);
   return (
     <Wrapper>

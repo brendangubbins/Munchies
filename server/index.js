@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
     });
 
     socket.join(room);
-    cb(`You joined ${room}`);
+    cb(`You joined room: ${room}`);
   });
 
   socket.on('submit-ready', (data, sender, guestLocation) => {
@@ -67,7 +67,19 @@ io.on('connection', (socket) => {
     guestLocation[0] = 40.8075;
     guestLocation[1] = -73.9626;
     console.log(`Socket receiving ${data} from ${sender} in location ${guestLocation}`);
-    socket.to('123').emit('user-ready', data, sender, guestLocation);
+    let room;
+    socket.rooms.forEach((roomName) => {
+      room = roomName;
+    });
+    socket.to(room).emit('user-ready', data, sender, guestLocation);
+  });
+
+  socket.on('send-yelp', (data, sender) => {
+    let room;
+    socket.rooms.forEach((roomName) => {
+      room = roomName;
+    });
+    socket.to(room).emit('retrieve-yelp', data, sender);
   });
 
   socket.on('disconnect', () => {
