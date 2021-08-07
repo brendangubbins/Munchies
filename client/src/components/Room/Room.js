@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Selection from "./Selection";
+import React from 'react';
+import styled from 'styled-components';
+import Selection from './Selection';
+import Chat from './Chat';
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,7 +30,9 @@ const RightAlign = styled.section`
 const Room = () => {
   return (
     <Wrapper>
-      <LeftAlign>This is where the chat will go </LeftAlign>
+      <LeftAlign>
+        <Chat />
+      </LeftAlign>
       <RightAlign>
         <Selection />
       </RightAlign>
