@@ -54,6 +54,13 @@ import Viet from "../../foodImages/Viet.jpg";
 import Wings from "../../foodImages/Wings.jpg";
 import Wraps from "../../foodImages/Wraps.jpg";
 
+const Title = styled.h2`
+  font-family: "Rubik";
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
 const Selection = () => {
   //All images for the cuisine buttons
   const foodCategories = [
@@ -263,24 +270,91 @@ const Selection = () => {
     },
   ];
 
-  //Render the food buttons
+  //State to hold what cuisine the user selects
+  const [cuisineData, setCuisineData] = useState([]);
+
+  //Fire this whenever a user clicks on a cuisine button
+  const handleClick = ({ food }) => {
+    //If we don't have this food, add it to the state
+    if (!cuisineData.includes(food.name)) {
+      setCuisineData(cuisineData.concat(food.name));
+      console.log("We're adding more food: ", cuisineData);
+    }
+    //Else user clicked again, remove the food from the state
+    else {
+      const arr = cuisineData.filter((item) => {
+        return item !== food.name;
+      });
+      setCuisineData(arr);
+      console.log("Removing food", cuisineData);
+    }
+  };
+
+  //Render the food buttons for the user to pick
   return (
     <Flex direction="column">
-      <Flex direction="row" flexWrap="wrap" w="100%">
-        {foodCategories.map((food) => {
-          return (
-            <Button key={food.name} variant="solid" margin=".5rem">
-              <Avatar
-                src={food.image}
-                size="sm"
-                justifyContent="flex-start"
-                mr=".5rem"
-              />
-              {food.name}
-            </Button>
-          );
-        })}
-      </Flex>
+      <Title>Select your favorite cuisines 😋</Title>
+      <Center>
+        <Box>
+          <Center>
+            <Flex>
+              <Center>
+                {cuisineData.length >= 1 ? (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ rotate: 360, scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
+                  >
+                    <Button
+                      size="lg"
+                      bgColor="#ffa500"
+                      _hover={{ backgroundColor: "#ffc108" }}
+                      fontFamily="Rubik"
+                    >
+                      Submit
+                    </Button>
+                  </motion.div>
+                ) : (
+                  ""
+                )}
+              </Center>
+            </Flex>
+          </Center>
+          <Flex width="100%">
+            <Text mt="2rem" ml="1rem" fontFamily="Rubik" fontSize="xl">
+              Categories
+            </Text>
+          </Flex>
+          <Center>
+            <Flex direction="row" flexWrap="wrap" w="100%">
+              {foodCategories.map((food) => {
+                return (
+                  <Button
+                    key={food.name}
+                    variant="solid"
+                    margin=".5rem"
+                    onClick={() => handleClick({ food })}
+                  >
+                    <Avatar
+                      src={food.image}
+                      size="sm"
+                      justifyContent="flex-start"
+                      mr=".5rem"
+                    />
+                    {food.name}
+                    {/* If the user clicked on the button, add a checkmark to show it went through */}
+                    {cuisineData.includes(food.name) ? "✔️" : " "}
+                  </Button>
+                );
+              })}
+            </Flex>
+          </Center>
+        </Box>
+      </Center>
     </Flex>
   );
 };
