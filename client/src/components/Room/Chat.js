@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // main container for chat section
 const OuterBox = styled.div`
@@ -179,12 +179,6 @@ const Chat = ({ socket }) => {
   // State for storing second user in the room
   const [guestName, setGuestName] = useState('');
 
-  const messagesEndRef = useRef(null);
-
-  // function to automatically scroll down to latest message
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
   /* 
   useEffect hook to store incoming messages into state
   and differentiate between user and guest messages
@@ -202,7 +196,6 @@ const Chat = ({ socket }) => {
       }
     });
 
-    scrollToBottom();
     return () => {
       socket.off('receive-message');
     };
@@ -282,7 +275,6 @@ const Chat = ({ socket }) => {
               </UserMessage>
             );
           })}
-          <div ref={messagesEndRef} />
         </MessagesContainer>
         <MessageForm>
           <MessageInput
