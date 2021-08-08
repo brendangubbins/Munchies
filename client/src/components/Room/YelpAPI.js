@@ -3,14 +3,14 @@ import axios from "axios";
 const locationToYelp = async (searchTerms) => {
 
 
-  var url = new URL("http://localhost:5000/yelp-get");
+  var url = new URL("https://munchies-xhacks.herokuapp.com/yelp-get");
   url.search = new URLSearchParams(searchTerms);
 
 
   const yelpResponse = await axios.get(url, searchTerms);
   console.log("Inside the YelpAPI.js file: ", yelpResponse);
   return yelpResponse.data;
-  
+
 };
 
 export default locationToYelp;

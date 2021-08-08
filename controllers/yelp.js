@@ -6,7 +6,7 @@ const yelpClient = yelp.client(process.env.YELP_API_KEY);
 yelpRouter.get(
   "/",
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://munchies-xhacks.herokuapp.com",
   }),
   async function (req, res) {
     const yelpResponse = await yelpClient

@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import io from 'socket.io-client';
 
 let socket;
-const PORT = 'http://localhost:5000';
+const PORT = 'https://munchies-xhacks.herokuapp.com';
 
 const App = () => {
 

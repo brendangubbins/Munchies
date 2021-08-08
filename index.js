@@ -35,7 +35,7 @@ app.server = app.listen(port, () => {
 
 const io = socket(app.server, {
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: ['https://munchies-xhacks.herokuapp.com'],
   },
 });
 
