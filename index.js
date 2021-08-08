@@ -24,6 +24,10 @@ app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
 app.use("/yelp-get", yelpRouter);
 
+app.get('/', (request, response) => {
+  response.send('build/index.html')
+})
+
 app.server = app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
