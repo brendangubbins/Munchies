@@ -150,8 +150,8 @@ const LandingForm = () => {
           <Image src={supportLocal} boxSize="sm" draggable="false"></Image>
         </Flex>
       </Center>
-      <div style={{ width: "100%" }}>
-        <FormContainer ref={myRef}>
+      <div>
+        <FormContainer ref={myRef} style={{ marginBottom: "5rem" }}>
           <Form />
         </FormContainer>
       </div>
