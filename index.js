@@ -18,6 +18,7 @@ const loginRouter = require('./controllers/login');
 const yelpRouter = require("./controllers/yelp");
 
 app.use(express.json());
+app.use(express.static('build'))
 app.use(cors());
 
 app.use('/api/users', userRouter);
