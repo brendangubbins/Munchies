@@ -282,6 +282,10 @@ const Selection = ({ socket }) => {
     },
   ];
 
+  const getLocation = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+
   const username = JSON.parse(
     window.sessionStorage.getItem('loggedMunchiesUser')
   ).username;
@@ -321,7 +325,7 @@ const Selection = ({ socket }) => {
       const parameters = {
         latitude: midpointLatitude,
         longitude: midpointLongitude,
-        term: [...cuisineData, ...guestData],
+        term: [...cuisineData, ...guestData, "restaurant"],
       };
 
       console.log(`Search terms: ${parameters}`);
@@ -360,9 +364,14 @@ const Selection = ({ socket }) => {
 
     const data = [...cuisineData];
 
+    const locationFromBrowser = await getLocation;
+    const lat = locationFromBrowser.coords.latitude;
+    const lon = locationFromBrowser.coords.longitude;
+
     // dummy coordinates of Time Square
-    const lat = 40.758;
-    const lon = -73.9855;
+    // const lat = 40.758;
+    // const lon = -73.9855;
+
     const latlon = [lat, lon];
 
     setLocation(latlon);
