@@ -20,6 +20,7 @@ const SocialIcons = () => {
         target="_blank"
         color="white"
         _hover={{ color: "#ffc108" }}
+        href="https://devpost.com/software/munchies-1qyw3t"
       >
         <FaDev fontSize="60px" />
       </Link>

@@ -29,9 +29,11 @@ const About = () => {
         <Text fontSize="50px" fontFamily="Rubik" mt="1rem">
           {" "}
           A{" "}
-          <chakra.span color="#ffa500" textDecoration="underline">
-            XHacks 2021
-          </chakra.span>{" "}
+          <Link href="https://devpost.com/software/munchies-1qyw3t">
+            <chakra.span color="#ffa500" textDecoration="underline">
+              XHacks 2021
+            </chakra.span>{" "}
+          </Link>
           submission.
         </Text>
       </Center>
