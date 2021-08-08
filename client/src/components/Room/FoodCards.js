@@ -17,9 +17,15 @@ import TinderCard from "react-tinder-card";
 import { BiLink, BiMoney, BiStar } from "react-icons/bi";
 import { CloseIcon, CheckIcon, StarIcon } from "@chakra-ui/icons";
 import review from "../../Images/review.svg";
+import { useToast } from "@chakra-ui/react";
+import Tilt from "react-tilt";
 
+//Render restaurants as tinder cards
 const FoodCards = ({ yelpAPIData }) => {
   console.log("My Yelp API data is ", yelpAPIData);
+
+  //Toast for button error
+  const toast = useToast();
 
   //State to hold all the choices the user swiped right on
   const [savedCards, setSavedCards] = useState([]);
@@ -73,83 +79,89 @@ const FoodCards = ({ yelpAPIData }) => {
                 preventSwipe={["up", "down"]} //user can't swipe up or down
                 key={restaurant.id}
               >
-                <Box
-                  w="sm"
-                  mx="auto"
-                  bg="gray.800"
-                  shadow="lg"
-                  rounded="lg"
-                  overflow="hidden"
-                  mt="2rem"
-                >
-                  {/* If the image does not exist, use munchies background as a placeholder */}
-                  {restaurant.image_url == "" ? (
-                    <Image
-                      width="100%"
-                      h="224px"
-                      //h={56}
-                      fit="cover"
-                      objectPosition="center"
-                      src={munchiesHero}
-                      alt="avatar"
-                      draggable="false"
-                    />
-                  ) : (
-                    //Else use the restaurants image
-                    <Image
-                      width="100%"
-                      h="224px"
-                      //h={56}
-                      fit="cover"
-                      objectPosition="center"
-                      src={restaurant.image_url}
-                      alt="avatar"
-                      draggable="false"
-                    />
-                  )}
+                <Tilt className="Tilt">
+                  <Box
+                    w="sm"
+                    mx="auto"
+                    bg="gray.800"
+                    shadow="lg"
+                    rounded="lg"
+                    overflow="hidden"
+                    mt="2rem"
+                  >
+                    {/* If the image does not exist, use munchies background as a placeholder */}
+                    {restaurant.image_url == "" ? (
+                      <Image
+                        width="100%"
+                        h="224px"
+                        //h={56}
+                        fit="cover"
+                        objectPosition="center"
+                        src={munchiesHero}
+                        alt="avatar"
+                        draggable="false"
+                      />
+                    ) : (
+                      //Else use the restaurants image
+                      <Image
+                        width="100%"
+                        h="224px"
+                        //h={56}
+                        fit="cover"
+                        objectPosition="center"
+                        src={restaurant.image_url}
+                        alt="avatar"
+                        draggable="false"
+                      />
+                    )}
 
-                  <Box py={4} px={6} h="280px">
-                    <chakra.h1
-                      fontSize="xl"
-                      fontWeight="bold"
-                      color="white"
-                      textAlign="center"
-                    >
-                      {restaurant.name}
-                    </chakra.h1>
-
-                    <chakra.p
-                      fontSize="sm"
-                      py={2}
-                      color="white"
-                      textAlign="center"
-                    >
-                      {address}
-                    </chakra.p>
-                    <Flex alignItems="center" mt={4} color="gray.200">
-                      <BiStar size={30} mr={2} />
-                      {`${restaurant.rating}/5 -`}
-                      <chakra.h1 px={2} fontSize="md">
-                        {restaurant.review_count} Ratings
+                    <Box py={4} px={6} h="280px">
+                      <chakra.h1
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="white"
+                        textAlign="center"
+                      >
+                        {restaurant.name}
                       </chakra.h1>
-                    </Flex>
-                    <Flex alignItems="center" mt={4} color="gray.200">
-                      <BiMoney size={30} mr="1rem" />
-                      {/* If money is undefined, say it's unavailable, else render the price */}
-                      {`${
-                        restaurant.price != undefined
-                          ? restaurant.price
-                          : "Price unavailable 😔"
-                      }`}
-                    </Flex>
-                    <Flex alignItems="center" mt={4} color="gray.200">
-                      <BiLink size={30} mr={2} />
-                      <a href={restaurant.url} target="_blank" rel="noreferrer">
-                        Learn More
-                      </a>
-                    </Flex>
+
+                      <chakra.p
+                        fontSize="sm"
+                        py={2}
+                        color="white"
+                        textAlign="center"
+                      >
+                        {address}
+                      </chakra.p>
+                      <Flex alignItems="center" mt={4} color="gray.200">
+                        <BiStar size={30} mr={2} />
+                        {`${restaurant.rating}/5 -`}
+                        <chakra.h1 px={2} fontSize="md">
+                          {restaurant.review_count} Ratings
+                        </chakra.h1>
+                      </Flex>
+                      <Flex alignItems="center" mt={4} color="gray.200">
+                        <BiMoney size={30} mr="1rem" />
+                        {/* If money is undefined, say it's unavailable, else render the price */}
+                        {`${
+                          restaurant.price != undefined
+                            ? restaurant.price
+                            : "Price unavailable 😔"
+                        }`}
+                      </Flex>
+                      <Flex alignItems="center" mt={4} color="gray.200">
+                        <BiLink size={30} mr={2} />
+                        <a
+                          href={restaurant.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Learn More
+                        </a>
+                      </Flex>
+                    </Box>
                   </Box>
-                </Box>
+                </Tilt>
                 <Center>
                   <Flex mt="2rem">
                     <Tooltip label="Dislike" aria-label="tooltip">
@@ -159,6 +171,15 @@ const FoodCards = ({ yelpAPIData }) => {
                         size="lg"
                         isRound="true"
                         icon={<CloseIcon />}
+                        onClick={() =>
+                          toast({
+                            title: "Oh no!",
+                            description: "This feature doesn't work yet 😔",
+                            status: "error",
+                            duration: 4000,
+                            isClosable: true,
+                          })
+                        }
                       />
                     </Tooltip>
                     <Tooltip label="Favorite" aria-label="A tooltip">
@@ -168,6 +189,15 @@ const FoodCards = ({ yelpAPIData }) => {
                         size="lg"
                         isRound="true"
                         icon={<StarIcon color="white" />}
+                        onClick={() =>
+                          toast({
+                            title: "Oh no!",
+                            description: "This feature doesn't work yet 😔",
+                            status: "error",
+                            duration: 4000,
+                            isClosable: true,
+                          })
+                        }
                       />
                     </Tooltip>
                     <Tooltip label="Like" aria-label="A tooltip">
@@ -177,6 +207,15 @@ const FoodCards = ({ yelpAPIData }) => {
                         size="lg"
                         isRound="true"
                         icon={<CheckIcon />}
+                        onClick={() =>
+                          toast({
+                            title: "Oh no!",
+                            description: "This feature doesn't work yet 😔",
+                            status: "error",
+                            duration: 4000,
+                            isClosable: true,
+                          })
+                        }
                       />
                     </Tooltip>
                   </Flex>
@@ -240,68 +279,69 @@ const FoodCards = ({ yelpAPIData }) => {
           {savedCards.map((restaurant) => {
             let address = restaurant.location.display_address.join(" ");
             return (
-              <Box
-                w="sm"
-                mx="auto"
-                bg="gray.800"
-                shadow="lg"
-                rounded="lg"
-                overflow="hidden"
-                mt="3rem"
-              >
-                <Image
-                  src={restaurant.image_url}
-                  alt="avatar"
-                  draggable="false"
-                  width="100%"
-                  h="224px"
-                  fit="cover"
-                  objectPosition="center"
-                />
-                <Box py={4} px={6} h="280px">
-                  <chakra.h1
-                    fontSize="xl"
-                    fontWeight="bold"
-                    color="white"
-                    textAlign="center"
-                  >
-                    {restaurant.name}
-                  </chakra.h1>
-
-                  <chakra.p
-                    fontSize="sm"
-                    py={2}
-                    color="white"
-                    textAlign="center"
-                  >
-                    {address}
-                  </chakra.p>
-
-                  <Flex alignItems="center" mt={4} color="gray.200">
-                    <BiStar size={30} mr={2} />
-                    {`${restaurant.rating}/5 -`}
-                    <chakra.h1 px={2} fontSize="md">
-                      {restaurant.review_count} Ratings
+              <Tilt className="Tilt" key={restaurant.id}>
+                <Box
+                  w="sm"
+                  mx="auto"
+                  bg="gray.800"
+                  shadow="lg"
+                  rounded="lg"
+                  mt="3rem"
+                >
+                  <Image
+                    src={restaurant.image_url}
+                    alt="avatar"
+                    draggable="false"
+                    width="100%"
+                    h="224px"
+                    fit="cover"
+                    objectPosition="center"
+                  />
+                  <Box py={4} px={6} h="280px">
+                    <chakra.h1
+                      fontSize="xl"
+                      fontWeight="bold"
+                      color="white"
+                      textAlign="center"
+                    >
+                      {restaurant.name}
                     </chakra.h1>
-                  </Flex>
-                  <Flex alignItems="center" mt={4} color="gray.200">
-                    <BiMoney size={30} mr="1rem" />
 
-                    {`${
-                      restaurant.price != undefined
-                        ? restaurant.price
-                        : "Price unavailable 😔"
-                    }`}
-                  </Flex>
-                  <Flex alignItems="center" mt={4} color="gray.200">
-                    <BiLink size={30} mr={2} />
+                    <chakra.p
+                      fontSize="sm"
+                      py={2}
+                      color="white"
+                      textAlign="center"
+                    >
+                      {address}
+                    </chakra.p>
 
-                    <a href={restaurant.url} target="_blank" rel="noreferrer">
-                      Learn More
-                    </a>
-                  </Flex>
+                    <Flex alignItems="center" mt={4} color="gray.200">
+                      <BiStar size={30} mr={2} />
+                      {`${restaurant.rating}/5 -`}
+                      <chakra.h1 px={2} fontSize="md">
+                        {restaurant.review_count} Ratings
+                      </chakra.h1>
+                    </Flex>
+                    <Flex alignItems="center" mt={4} color="gray.200">
+                      <BiMoney size={30} mr="1rem" />
+
+                      {`${
+                        restaurant.price != undefined
+                          ? restaurant.price
+                          : "Price unavailable 😔"
+                      }`}
+                    </Flex>
+                    <Flex alignItems="center" mt={4} color="gray.200">
+                      <BiLink size={30} mr={2} />
+
+                      <a href={restaurant.url} target="_blank" rel="noreferrer">
+                        Learn More
+                      </a>
+                    </Flex>
+                  </Box>
                 </Box>
-              </Box>
+              </Tilt>
             );
           })}
         </SimpleGrid>
