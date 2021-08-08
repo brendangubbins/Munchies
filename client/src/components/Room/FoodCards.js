@@ -143,11 +143,10 @@ const FoodCards = ({ yelpAPIData }) => {
                       <Flex alignItems="center" mt={4} color="gray.200">
                         <BiMoney size={30} mr="1rem" />
                         {/* If money is undefined, say it's unavailable, else render the price */}
-                        {`${
-                          restaurant.price != undefined
-                            ? restaurant.price
-                            : "Price unavailable 😔"
-                        }`}
+                        {`${restaurant.price != undefined
+                          ? restaurant.price
+                          : "Price unavailable 😔"
+                          }`}
                       </Flex>
                       <Flex alignItems="center" mt={4} color="gray.200">
                         <BiLink size={30} mr={2} />
@@ -269,12 +268,21 @@ const FoodCards = ({ yelpAPIData }) => {
   else if (displayVerdict === true) {
     return (
       <Flex direction="column" width="100%" fontFamily="Rubik">
-        <Center>
-          <Text fontFamily="Rubik" mt="2rem" fontSize="20px">
-            Based on your matches, you should support these restaurants in your
-            area! 😍
-          </Text>
-        </Center>
+        {savedCards.length !== 0 ? (
+          <Center>
+            <Text fontFamily="Rubik" mt="2rem" fontSize="20px">
+              Based on your matches, you should support these restaurants in your
+              area! 😍
+            </Text>
+          </Center>)
+          :
+          (
+            <Center>
+              <Text fontFamily="Rubik" mt="2rem" fontSize="20px">
+                It seems like you didn't enjoy any of the restaurants. ☹️
+              </Text>
+            </Center>
+          )}
         <SimpleGrid columns={[1, 1, 1, 1, 2]} spacing={10}>
           {savedCards.map((restaurant) => {
             let address = restaurant.location.display_address.join(" ");
@@ -326,11 +334,10 @@ const FoodCards = ({ yelpAPIData }) => {
                     <Flex alignItems="center" mt={4} color="gray.200">
                       <BiMoney size={30} mr="1rem" />
 
-                      {`${
-                        restaurant.price != undefined
-                          ? restaurant.price
-                          : "Price unavailable 😔"
-                      }`}
+                      {`${restaurant.price != undefined
+                        ? restaurant.price
+                        : "Price unavailable 😔"
+                        }`}
                     </Flex>
                     <Flex alignItems="center" mt={4} color="gray.200">
                       <BiLink size={30} mr={2} />
